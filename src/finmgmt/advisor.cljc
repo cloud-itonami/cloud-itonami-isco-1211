@@ -7,7 +7,8 @@
 
   A proposal: {:op :draft-budget|:approve-expenditure|:reallocate-budget
                :effect :propose :line-id str :amount int
-               :stake kw :confidence n :rationale str}")
+               :stake kw :confidence n :rationale str}"
+  (:require #?(:clj [clojure.edn :as edn] :cljs [cljs.reader :as edn])))
 
 (defprotocol Advisor
   (-advise [advisor store request] "request -> proposal map"))
@@ -32,7 +33,7 @@
 
 (defn- parse-proposal [content]
   (try
-    (let [p (read-string content)]
+    (let [p (edn/read-string content)]
       (if (map? p)
         (assoc p :effect :propose)
         {:op :unknown :effect :propose :confidence 0.0 :stake :high
