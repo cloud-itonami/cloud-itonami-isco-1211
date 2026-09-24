@@ -1,0 +1,33 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:physics` runs it.
+;;
+;; The README declares finance management (ISCO 1211) a wave-1 "design &
+;; governance" occupation with no robotics gate: the core work is cognitive.
+;; The residual physical work a robot would do for a community finance office
+;; is cash and record handling: carrying the day's coin and note bags from the
+;; counter to the strongroom, and lifting coin bags onto the safe shelf.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isco-1211"
+ :cases
+ [{:id :coin-bag-to-strongroom
+   :kind :transport
+   :procedure "robot carries the day's sealed coin and note bags 35 m from the counter to the strongroom"
+   :params {:mass-kg 45.0 :distance-m 35.0 :v-max-mps 0.8 :a-max-mps2 0.4
+            :brake-decel-mps2 0.6 :drive-force-n 90.0 :crr 0.015
+            :cog-height-m 0.40 :support-half-length-m 0.25}
+   :sweep {:param :payload-kg :values [5.0 15.0 30.0 60.0 100.0]}
+   :quantity :cycle-time-s
+   :limit {:max 50.0 :basis "estimate: cash is out of the counter or strongroom for under a minute per transfer (office cash-handling procedure)"}
+   :boundary {:lo 1.0 :hi 500.0}}
+  {:id :coin-bag-onto-safe-shelf
+   :kind :manipulator
+   :procedure "arm lifts a sealed coin bag from the trolley onto the upper shelf of the safe"
+   :params {:l1-m 0.50 :l2-m 0.45 :m1-kg 5.0 :m2-kg 3.5
+            :from [0.60 0.05] :to [0.45 0.75] :duration-s 2.5 :steps 400}
+   :sweep {:param :payload-kg :values [2.0 5.0 8.0 12.0 16.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 100.0 :basis "estimate: continuous shoulder torque of a ~10 kg-payload collaborative arm"}
+   :boundary {:lo 0.5 :hi 40.0}}]}
