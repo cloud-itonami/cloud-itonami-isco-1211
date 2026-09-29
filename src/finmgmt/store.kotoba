@@ -1,6 +1,6 @@
 (ns finmgmt.store
   "SSoT for the ISCO-08 1211 community finance-management actor
-  (itonami actor pattern, ADR-2607011000 / CLAUDE.md Actors section).
+  (itonami actor pattern, ADR-2607011000 / AGENTS.md Actors section).
   Modeled on cloud-itonami-isco-4311's bookkeeping.store. First wave-1
   (design & governance) actor.
 
